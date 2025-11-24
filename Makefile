@@ -63,8 +63,11 @@ clean-all: clean
 dev-shell:
 	@echo "$(GREEN)Starting development shell with ROS2 environment...$(NC)"
 	@cd ros2_workspace && \
-		/bin/bash --rcfile <(echo '. /opt/ros/humble/setup.bash; . install/setup.bash 2>/dev/null || true')
-
+		tmpfile=$$(mktemp .dev_shell_rc.XXXXXX) && \
+		echo '. /opt/ros/humble/setup.bash' > $$tmpfile && \
+		echo '. install/setup.bash 2>/dev/null || true' >> $$tmpfile && \
+		/bin/bash --rcfile $$tmpfile && \
+		rm -f $$tmpfile
 list-packages:
 	@echo "$(GREEN)ROS2 Packages:$(NC)"
 	@cd ros2_workspace && \
