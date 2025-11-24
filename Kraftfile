@@ -2,7 +2,8 @@ specification: v0.6
 
 name: ros2-unikraft
 unikraft:
-  version: stable
+  # Pinned to 0.17.0 for reproducible builds; update as needed for new features or bug fixes
+  version: 0.17.0
   kconfig:
     CONFIG_LIBPOSIX_MMAP: 'y'
     CONFIG_LIBPOSIX_SOCKET: 'y'
