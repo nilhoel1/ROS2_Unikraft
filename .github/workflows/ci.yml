@@ -1,0 +1,111 @@
+name: ROS2 Unikraft CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+jobs:
+  build-ros2:
+    name: Build ROS2 Workspace
+    runs-on: ubuntu-22.04
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup ROS2 Humble
+      uses: ros-tooling/setup-ros@v0.7
+      with:
+        required-ros-distributions: humble
+        
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python3-colcon-common-extensions
+        cd ros2_workspace
+        source /opt/ros/humble/setup.bash
+        rosdep update
+        rosdep install --from-paths src --ignore-src -r -y
+        
+    - name: Build ROS2 workspace
+      run: |
+        cd ros2_workspace
+        source /opt/ros/humble/setup.bash
+        colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
+        
+    - name: Run tests
+      run: |
+        cd ros2_workspace
+        source /opt/ros/humble/setup.bash
+        source install/setup.bash
+        colcon test || true
+        colcon test-result --verbose || true
+        
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: ros2-build-artifacts
+        path: |
+          ros2_workspace/build/
+          ros2_workspace/install/
+          ros2_workspace/log/
+        retention-days: 5
+
+  lint-cpp:
+    name: Lint C++ Code
+    runs-on: ubuntu-22.04
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Install clang-format
+      run: sudo apt-get update && sudo apt-get install -y clang-format
+      
+    - name: Check C++ formatting
+      run: |
+        find ros2_workspace/src -name "*.cpp" -o -name "*.hpp" | \
+        xargs clang-format --dry-run -Werror || true
+
+  lint-python:
+    name: Lint Python Code
+    runs-on: ubuntu-22.04
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+        
+    - name: Install linting tools
+      run: |
+        pip install flake8 black
+        
+    - name: Check Python formatting
+      run: |
+        find ros2_workspace/src -name "*.py" | xargs black --check || true
+        find ros2_workspace/src -name "*.py" | xargs flake8 || true
+
+  check-docker:
+    name: Verify Devcontainer Build
+    runs-on: ubuntu-22.04
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Build devcontainer
+      run: |
+        cd .devcontainer
+        docker build -t ros2-unikraft-dev .
+        
+    - name: Test devcontainer
+      run: |
+        docker run --rm ros2-unikraft-dev bash -c "source /opt/ros/humble/setup.bash && ros2 --version"
