@@ -39,11 +39,13 @@ RUN apt-get update && apt-get install -y \
 # Install ROS2 Humble dependencies
 RUN apt-get update && apt-get install -y \
     software-properties-common \
+    ca-certificates \
     && add-apt-repository universe \
     && apt-get update && apt-get install -y \
     curl \
     gnupg \
-    lsb-release
+    lsb-release \
+    && rm -rf /var/lib/apt/lists/*
 
 # Add ROS2 repository and install ROS2 Humble base
 RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg \

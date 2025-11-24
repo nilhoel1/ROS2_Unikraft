@@ -7,7 +7,11 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-echo -e "${GREEN}Running Unikraft image on KVM...${NC}"
+# Parse command line arguments
+PLATFORM="${1:-kvm}"
+ARCHITECTURE="${2:-x86_64}"
+
+echo -e "${GREEN}Running Unikraft image on ${PLATFORM}/${ARCHITECTURE}...${NC}"
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 WORKSPACE_ROOT="$(dirname "$SCRIPT_DIR")"
@@ -21,7 +25,7 @@ if [ ! -d ".unikraft" ]; then
 fi
 
 # Run with kraft
-echo -e "${YELLOW}Starting Unikraft on KVM...${NC}"
-kraft run --plat kvm --arch x86_64
+echo -e "${YELLOW}Starting Unikraft on ${PLATFORM}/${ARCHITECTURE}...${NC}"
+kraft run --plat "$PLATFORM" --arch "$ARCHITECTURE"
 
 echo -e "${GREEN}Unikraft instance stopped.${NC}"

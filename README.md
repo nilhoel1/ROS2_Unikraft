@@ -85,7 +85,12 @@ This project combines:
 
 7. **Run on KVM**:
    ```bash
+   # Run with defaults (kvm/x86_64)
    ./scripts/run_unikraft.sh
+   
+   # Or specify platform and architecture
+   ./scripts/run_unikraft.sh <platform> <architecture>
+   # Example: ./scripts/run_unikraft.sh kvm x86_64
    ```
 
 ## Directory Structure
