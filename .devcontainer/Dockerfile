@@ -42,7 +42,6 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
     && add-apt-repository universe \
     && apt-get update && apt-get install -y \
-    curl \
     gnupg \
     lsb-release \
     && rm -rf /var/lib/apt/lists/*
