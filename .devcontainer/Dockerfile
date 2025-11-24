@@ -64,7 +64,6 @@ RUN rosdep init || true \
 # Install Unikraft dependencies
 RUN apt-get update && apt-get install -y \
     gcc-aarch64-linux-gnu \
-    gcc-x86-64-linux-gnu \
     qemu-system-x86 \
     qemu-system-arm \
     qemu-kvm \
