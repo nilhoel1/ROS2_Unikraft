@@ -111,4 +111,4 @@ jobs:
         
     - name: Test devcontainer
       run: |
-        docker run --rm ros2-unikraft-dev bash -c "source /opt/ros/humble/setup.bash && ros2 --version"
+        docker run --rm ros2-unikraft-dev bash -c "source /opt/ros/humble/setup.bash && ros2 --help"
