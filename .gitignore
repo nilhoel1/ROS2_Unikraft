@@ -1,0 +1,75 @@
+# ROS2 build artifacts
+ros2_workspace/build/
+ros2_workspace/install/
+ros2_workspace/log/
+
+# Unikraft build artifacts
+.unikraft/
+.kraft/
+*.dbg
+*.bin
+*.elf
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*~
+.DS_Store
+
+# IDE files
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.iml
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# C/C++
+*.o
+*.a
+*.so
+*.so.*
+*.dylib
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# Build directories
+build/
+bin/
+obj/
+
+# Logs
+*.log
+
+# Cache
+.cache/

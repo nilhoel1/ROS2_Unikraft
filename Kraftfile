@@ -1,0 +1,47 @@
+specification: v0.6
+
+name: ros2-unikraft
+unikraft:
+  # Pinned to 0.17.0 for reproducible builds; update as needed for new features or bug fixes
+  version: 0.17.0
+  kconfig:
+    CONFIG_LIBPOSIX_MMAP: 'y'
+    CONFIG_LIBPOSIX_SOCKET: 'y'
+    CONFIG_LIBPOSIX_TIME: 'y'
+    CONFIG_LIBVFSCORE: 'y'
+    CONFIG_LIBVFSCORE_AUTOMOUNT_ROOTFS: 'y'
+    CONFIG_LIBVFSCORE_ROOTFS_RAMFS: 'y'
+    CONFIG_LIBDEVFS: 'y'
+    CONFIG_LIBDEVFS_AUTOMOUNT: 'y'
+    CONFIG_LIBRAMFS: 'y'
+    CONFIG_LIBSYSCALL_SHIM: 'y'
+    CONFIG_LIBUKNETDEV: 'y'
+    CONFIG_LIBUKNETDEV_DISPATCHERTHREADS: 'y'
+    CONFIG_LIBUKLIBPARAM: 'y'
+    CONFIG_LIBUKSCHED: 'y'
+    CONFIG_LIBUKLOCK: 'y'
+    CONFIG_LIBUKDEBUG_PRINTK: 'y'
+    CONFIG_LIBUKDEBUG_PRINTD: 'y'
+    CONFIG_LIBUKBOOT: 'y'
+    CONFIG_LIBUKALLOC: 'y'
+    CONFIG_LIBUKALLOCBBUDDY: 'y'
+    CONFIG_LIBPTHREAD_EMBEDDED: 'y'
+    CONFIG_LIBMUSL: 'y'
+    CONFIG_LIBNEWLIBC: 'n'
+
+targets:
+  - platform: kvm
+    architecture: x86_64
+
+libraries:
+  musl: stable
+  lwip:
+    version: stable
+    kconfig:
+      CONFIG_LWIP_SOCKET: 'y'
+      CONFIG_LWIP_THREADS: 'y'
+      CONFIG_LWIP_WND_SCALE: 'y'
+      CONFIG_LWIP_TCP_KEEPALIVE: 'y'
+      CONFIG_LWIP_DNS: 'y'
+      CONFIG_LWIP_IPV6: 'y'
+  pthread-embedded: stable
