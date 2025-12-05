@@ -14,9 +14,9 @@ WORKSPACE_ROOT="$(dirname "$SCRIPT_DIR")"
 
 cd "$WORKSPACE_ROOT"
 
-# Check if Kraftfile exists
-if [ ! -f "Kraftfile" ]; then
-    echo -e "${RED}Kraftfile not found!${NC}"
+# Check if kraft.yaml exists
+if [ ! -f "kraft.yaml" ]; then
+    echo -e "${RED}kraft.yaml not found!${NC}"
     exit 1
 fi
 

@@ -1,4 +1,4 @@
-specification: v0.6
+specification: '0.5'
 
 name: ros2-unikraft
 unikraft:
